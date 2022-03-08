@@ -1,3 +1,6 @@
+const { ApolloServer, gql } = require("apollo-server-express");
+
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
@@ -13,6 +16,12 @@ app.use(cors(), bodyParser.json(), expressJwt({
   secret: jwtSecret,
   credentialsRequired: false
 }));
+
+// Setting the GraphQL configs
+const graphqlSchemas = gql(fs.readFileSync('./graphql/schemas.graphql', { encoding: 'utf8' }));
+const graphqlResolvers = require('./graphql/resolvers');
+const apolloServer = new ApolloServer({typeDefs: graphqlSchemas, resolvers: graphqlResolvers});
+apolloServer.applyMiddleware({ app, path: '/graphql' });
 
 app.post('/login', (req, res) => {
   const {email, password} = req.body;
