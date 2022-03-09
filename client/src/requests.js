@@ -82,3 +82,26 @@ export const fetchCompaniesById = async (companyId) => {
 
     return data.company;
 }
+
+export const addNewJob = async (jobData) => {
+
+    const { companyId, title, description } = jobData
+
+    const query = `
+        mutation {
+            createJob(input: { companyId: "${companyId}", title: "${title}", description: "${description}"}) {
+                company {
+                    id
+                    name
+                }
+                id
+                title
+            }
+        }
+    `
+
+    const data = await graphqlRequests(query);
+
+    return data.createJob;
+
+}
