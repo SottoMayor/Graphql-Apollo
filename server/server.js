@@ -20,7 +20,7 @@ app.use(cors(), bodyParser.json(), expressJwt({
 // Setting the GraphQL configs
 const graphqlSchemas = gql(fs.readFileSync('./graphql/schemas.graphql', { encoding: 'utf8' }));
 const graphqlResolvers = require('./graphql/resolvers');
-const apolloServer = new ApolloServer({typeDefs: graphqlSchemas, resolvers: graphqlResolvers});
+const apolloServer = new ApolloServer({typeDefs: graphqlSchemas, resolvers: graphqlResolvers, context: ({ req }) => ( { user: req.user } )});
 apolloServer.applyMiddleware({ app, path: '/graphql' });
 
 app.post('/login', (req, res) => {

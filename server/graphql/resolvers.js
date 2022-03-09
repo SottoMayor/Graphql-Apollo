@@ -7,10 +7,15 @@ const Query = {
 }
 
 const Mutation = {
-    createJob: (_, { input }) => {
+    createJob: (_, { input }, context) => {
+
+        console.log(context);
+        if(!context.user){
+            throw new Error("Not authorizated! You must authenticate first.")
+        }
+
         const createJobId = db.jobs.create( input );
         const selectedJob = db.jobs.get(createJobId);
-        console.log(selectedJob)
         return selectedJob;
     }
 }
