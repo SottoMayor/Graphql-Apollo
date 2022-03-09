@@ -44,7 +44,6 @@ export const fetchJobs = async () => {
 }
 
 export const fetchJobsById = async ( jobId ) => {
-    console.log(jobId);
     const query = `
         {
             job(id: "${jobId}"){
@@ -62,4 +61,20 @@ export const fetchJobsById = async ( jobId ) => {
     const data = await graphqlRequests(query);
 
     return data.job
+}
+
+export const fetchCompaniesById = async (companyId) => {
+    const query = `
+        {
+            company(id: "${companyId}"){
+                name
+                description
+                id
+            }
+        }
+    `
+
+    const data = await graphqlRequests(query);
+
+    return data.company;
 }
