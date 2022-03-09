@@ -70,6 +70,10 @@ export const fetchCompaniesById = async (companyId) => {
                 name
                 description
                 id
+                jobs{
+                    id
+                    title
+                }
             }
         }
     `
