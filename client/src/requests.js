@@ -30,3 +30,32 @@ export const fetchJobs = async () => {
     return data.data.jobs;
 
 }
+
+export const fetchJobsById = async ( jobId ) => {
+    console.log(jobId);
+    const query = `
+        {
+            job(id: "${jobId}"){
+                id
+                title
+                company{
+                    id
+                    name
+                }
+                description
+            }
+        }
+    `
+
+    const response = await fetch(server_url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({ query })
+    })
+
+    const data = await response.json()
+
+    console.log(data.data.job)
+
+    return data.data.job
+}
