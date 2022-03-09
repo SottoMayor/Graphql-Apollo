@@ -1,5 +1,24 @@
 const server_url = 'http://localhost:9000/graphql';
 
+const graphqlRequests = async (query) => {
+    const response = await fetch(server_url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query })
+    })
+
+    const data = await response.json();
+
+    if(data.errors){
+        const message = data.errors.map(error => error.message).join('\n');
+        throw new Error(message)
+    }
+
+    console.log(data.data)
+
+    return data.data
+}
+
 export const fetchJobs = async () => {
 
     const query = `
@@ -17,17 +36,10 @@ export const fetchJobs = async () => {
         }
     `
 
-    const response = await fetch(server_url, {
-        method: 'POST',
-        body: JSON.stringify({ query }),
-        headers: { 'content-type': 'application/json'}
-    })
+    const data = await graphqlRequests(query);
+    
 
-    const data = await response.json()
-
-    console.log(data)
-
-    return data.data.jobs;
+    return data.jobs;
 
 }
 
@@ -47,15 +59,7 @@ export const fetchJobsById = async ( jobId ) => {
         }
     `
 
-    const response = await fetch(server_url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify({ query })
-    })
+    const data = await graphqlRequests(query);
 
-    const data = await response.json()
-
-    console.log(data.data.job)
-
-    return data.data.job
+    return data.job
 }
