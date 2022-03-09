@@ -94,12 +94,11 @@ export const fetchCompaniesById = async (companyId) => {
 }
 
 export const addNewJob = async (jobData) => {
-
-    const { companyId, title, description } = jobData
+    const { title, description } = jobData
 
     const query = `
         mutation {
-            createJob(input: { companyId: "${companyId}", title: "${title}", description: "${description}"}) {
+            createJob( input: { title: "${title}", description: "${description}"} ) {
                 company {
                     id
                     name

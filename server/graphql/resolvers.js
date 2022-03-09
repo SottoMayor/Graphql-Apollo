@@ -14,7 +14,7 @@ const Mutation = {
             throw new Error("Not authorizated! You must authenticate first.")
         }
 
-        const createJobId = db.jobs.create( input );
+        const createJobId = db.jobs.create( { ...input, companyId: context.user.companyId } );
         const selectedJob = db.jobs.get(createJobId);
         return selectedJob;
     }

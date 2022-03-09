@@ -14,9 +14,7 @@ export class JobForm extends Component {
 
   async handleClick(event) {
     event.preventDefault();
-
-    const companyId = "SJV0-wdOM"
-    const completedData = { ...this.state, companyId }
+    const completedData = { ...this.state }
     console.log('should post a new job:', completedData);
     
     const response = await addNewJob(completedData);
